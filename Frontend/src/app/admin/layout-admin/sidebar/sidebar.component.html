@@ -1,0 +1,72 @@
+<div class="main-nav d-flex flex-column flex-shrink-0 p-3 {{themeColor}}" style="width: 180px;">
+  <!-- Menu Principal -->
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="./dashboard" routerLinkActive="active">
+        <i class="fas fa-home"></i>
+        Principal
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" routerLink="./ticket-category" routerLinkActive="active">
+        <i class="fas fa-book"></i>
+        {{ '::Categories' | abpLocalization }}
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" routerLink="./ticket-sector" routerLinkActive="active">
+        <i class="bi bi-circle-square"></i>
+        {{ '::Sectors' | abpLocalization }}
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" routerLink="./provider-payment" routerLinkActive="active">
+        <i class="bi bi-wallet"></i>
+        {{ '::ProviderPayments' | abpLocalization }}
+      </a>
+    </li>
+  </ul>
+  <hr>
+
+  <!-- Menu Admin -->
+  <div>
+    <ul class="nav nav-pills flex-column">
+      <li>
+        <a href="#" class="nav-link" routerLink="./identity/roles" routerLinkActive="active">
+          <i class="bi bi-grid"></i>
+          Roles
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="./identity/users" routerLinkActive="active">
+          <i class="bi bi-people"></i>
+          Usuarios
+        </a>
+      </li>
+    </ul>
+    <hr>
+  </div>
+
+  <!-- Menu User -->
+  <div ngbDropdown placement="top-start">
+    <a class="d-flex align-items-center text-decoration-none" tabindex="0" ngbDropdownToggle id="dropProfile"
+      role="button">
+      <i class="bi bi-person"></i>
+      <strong>{{ (currentUser$ | async)?.userName | uppercase }} {{ (currentUser$ | async)?.surName | uppercase }}</strong>
+    </a>
+    <div ngbDropdownMenu aria-labelledby="dropProfile" class="dropdown-menu">
+      <!-- <a ngbDropdownItem [routerLink]="['account/manage']">
+        <i class="bi bi-person"></i>
+        Perfil
+      </a> -->
+      <a ngbDropdownItem [routerLink]="['setting-management']">
+        <i class="bi bi-gear"></i>
+        Configuraciones
+      </a>
+      <a ngbDropdownItem (click)="layoutService.logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        Cerrar sesión
+      </a>
+    </div>
+  </div>
+</div>

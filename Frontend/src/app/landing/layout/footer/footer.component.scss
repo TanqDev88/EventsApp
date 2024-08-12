@@ -1,0 +1,25 @@
+.link-footer {
+  transition: all 0.3s ease-in-out;
+
+  a {
+    text-decoration: none;
+  }
+
+  .link-social {
+    padding-right: 15px;
+  }
+
+  &.dark {
+    color: #003ca6;
+    a {
+      color: #003ca6;
+    }
+  }
+
+  &.light {
+    color: #ddd;
+    a {
+      color: #ddd;
+    }
+  }
+}

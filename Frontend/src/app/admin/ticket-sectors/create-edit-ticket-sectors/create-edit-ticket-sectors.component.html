@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ (id ? '::EditSector' : '::NewSector') | abpLocalization }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="fgTicketSector" (ngSubmit)="onSave()">
+    <div class="form-group">
+      <label for="name-id">{{ '::Name' | abpLocalization }}</label>
+      <input type="text" id="name-id" class="form-control" formControlName="name" autofocus />
+    </div>
+    <div class="form-group">
+      <label for="description-id">{{ '::Description' | abpLocalization }}</label>
+      <input type="text" id="description-id" class="form-control" formControlName="description" />
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+    {{ '::Close' | abpLocalization }}
+  </button>
+  <button class="btn btn-primary" (click)="onSave()" [disabled]="saveClicked || fgTicketSector.invalid">
+    <i class="fa fa-check mr-1"></i>
+    {{ '::Save' | abpLocalization }}
+  </button>
+</div>

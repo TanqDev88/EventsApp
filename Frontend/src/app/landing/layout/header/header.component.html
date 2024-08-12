@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg border-bottom shadow p-2 fixed-top"
+  [style.background-color]="bgColorLocal">
+  <div class="container">
+      <div class="col-6 col-md-4 col-sm-4 d-flex justify-content-start">
+        <!-- Ruta a tu logotipo y texto alternativo -->
+        <a class="navbar-brand" routerLink="/events">
+          <img src="{{ logoSrcLocal }}" alt="TixGo" class="img-logo">
+        </a>
+      </div>
+      <div class="col-6 col-md-8 col-sm-8 d-flex justify-content-end">
+
+        <button title="Cambiar diseño" class="btn-change-theme" (click)="changeLight()" [ngClass]="{ 'dark': isLightLocal, 'light': !isLightLocal} " *ngIf="isThemeClientfunc()">
+          <i class="fa fa-sun-o me-1" *ngIf="!isLightLocal"></i>
+          <i class="fa fa-moon-o me-1" *ngIf="isLightLocal"></i>
+        </button>
+
+        <button class="btn btn-primary" (click)="go('account/login')" *ngIf="!hasLoggedIn">
+          <i class="fa fa-sign-in me-1"></i>
+          {{ '::Login' | abpLocalization }}
+        </button>
+
+        <div class="btn-group" role="group" *ngIf="hasLoggedIn">
+          <button class="btn btn-primary" (click)="go('admin')" title="{{ '::MyAccount' | abpLocalization }}" type="button">
+            <i class="fa fa-user me-1"></i>
+            <span *ngIf="!isMobile">{{ '::MyAccount' | abpLocalization }}</span>
+          </button>
+          <button class="btn btn-primary" (click)="logout()" title="{{ '::Logout' | abpLocalization }}" type="button">
+            <i class="fa fa-sign-out me-1"></i>
+          </button>
+        </div>
+
+      </div>
+  </div>
+</nav>

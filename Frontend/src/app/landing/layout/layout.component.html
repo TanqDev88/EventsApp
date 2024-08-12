@@ -1,0 +1,15 @@
+<main>
+  <div class="main-container" [@inOutPage]="olanding.isActivated ? olanding.activatedRoute : ''" >
+    <app-header></app-header>
+
+    <div class="min-div" [@inOutPage]="olanding.isActivated ? olanding.activatedRoute : ''" style="padding-top: 100px;" >
+      <router-outlet #olanding="outlet"></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</main>
+
+
+
+

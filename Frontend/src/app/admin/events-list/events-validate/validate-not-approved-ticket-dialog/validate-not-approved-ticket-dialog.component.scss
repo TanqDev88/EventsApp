@@ -1,0 +1,94 @@
+.ticket-page-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: #e30052;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.content {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  color: #000;
+}
+
+.icon-container {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.tick-icon {
+  font-size: 50px;
+  margin-top: -37px;
+}
+
+.message {
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.info {
+  margin-top: 140px;
+  padding: 10px;
+  border: 2px solid white;
+  width: 50%;
+}
+
+.info .value {
+  color: white;
+  font-weight: bold;
+}
+
+.categories {
+  display: flex;
+  align-items: center;
+  margin-left: calc(50% - 100px);
+}
+
+.categories .value {
+  margin: 0 10px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.value {
+  margin-top: 5px;
+}
+
+.separator {
+  color: white;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.modal-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  margin: 20px;
+  border-width: 3px;
+}

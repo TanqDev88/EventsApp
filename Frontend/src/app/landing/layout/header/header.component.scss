@@ -1,0 +1,30 @@
+.custom-bg-color {
+  border-radius: 0 0 0 0;
+}
+
+.btn-primary {
+  background-color: #003ca6;
+  border-color: #6384c0;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #0f59b3;
+  transition: all 0.2s ease-in-out;
+}
+
+
+.btn-change-theme {
+  border: 0;
+  background-color: transparent;
+  padding-right: 15px;
+  transition: all 0.2s ease-in-out;
+
+  &.light{
+    color: #fff;
+  }
+
+  &.dark{
+    color: #003ca6;
+  }
+}

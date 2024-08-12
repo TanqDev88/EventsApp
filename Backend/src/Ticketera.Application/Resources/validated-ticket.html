@@ -1,0 +1,172 @@
+<style>
+    .tableInit {
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+    }
+    .invoice-box {
+        padding: 25px;
+        border: 4px solid #756a6a;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(68, 65, 65, 0.15);
+        font-size: 14px;
+        font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+        color: #555;
+    }
+ 
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+        }
+ 
+            .invoice-box table td {
+                padding: 5px;
+                vertical-align: top;
+            }
+
+            .invoice-box table tr td:nth-child(3) {
+                text-align: right;
+            }
+ 
+ 
+            .invoice-box table tr.top table td {
+                padding-bottom: 15px;
+                text-align: left;
+            }
+ 
+                .invoice-box table tr.top table td:nth-child(2) {
+                    text-align: right;
+                }
+ 
+                .invoice-box table tr.top table td.title {
+                    font-size: 40px;
+                    line-height: 40px;
+                    color: #333;
+                }
+ 
+            .invoice-box table tr.information table td {
+                padding-bottom: 20px;
+            }
+ 
+            .invoice-box table tr.heading td {
+                border-bottom: 2px solid #ddd;
+                font-weight: 500;
+            }
+ 
+            .invoice-box table tr.details td {
+                padding-bottom: 15px;
+            }
+ 
+            .invoice-box table tr.item td {
+                border-bottom: 1px solid #eee;
+            }
+ 
+            .invoice-box table tr.item.last td {
+                border-bottom: none;
+                text-align: right;
+            }
+ 
+            .invoice-box table tr.total td:nth-child(2) {
+                border-top: 2px solid #eee;
+                font-weight: bold;
+            }
+ 
+            .invoice-box table tr.item td.itemRight {
+                text-align: right;
+            }
+ 
+    @media only screen and (max-width: 600px) {
+        .invoice-box table tr.top table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+ 
+        .invoice-box table tr.information table td {
+            width: 100%;
+            display: block;
+            text-align: left;
+        }
+    }
+ 
+    /** RTL **/
+    .invoice-box.rtl {
+        direction: rtl;
+        font-family: Tahoma, "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    }
+ 
+        .invoice-box.rtl table {
+            text-align: right;
+        }
+ 
+            .invoice-box.rtl table tr td:nth-child(2) {
+                text-align: left;
+            }
+ 
+    .has-voucher {
+        display: none;
+    }
+ 
+    itemRight{
+        text-align: right;
+    }
+</style>
+
+<table align="center" class="tableInit">
+    <tbody>
+        <tr>
+            <td class="invoice-box">
+                <table cellpadding="0" align="center" cellspacing="0">
+                    <tr class="top">
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;">
+                            <img style="height: 30px; max-width: 120px;" src="{{logoTixGo}}" alt="LogoTixGo">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="top" colspan="3" style="text-align: center;">
+                            <h1 style="margin-top: 15px; margin-bottom: 3px;">{{validatedTicket}}</h1>
+                        </td>
+                    </tr>
+                    <td colspan="3">
+                        <hr style="border: none; height: 3px; background: linear-gradient(to right, transparent, #d7d7dd, transparent);"/><br>
+                    </td>
+                </table>
+                <br>
+                <table style="text-align: center;">
+                    <tr>
+                        <td colspan="2">
+                            <h2>{{nameEvent}}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <img style="height: 200px; max-width: 500px;" src="{{qrValidated}}" alt="QRValidated">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>{{infoTicket}}</strong>
+                        </td>
+                    </tr>
+                    <td colspan="2">
+                        <hr style="border: none; height: 3px; background: linear-gradient(to right, transparent, #d7d7dd, transparent);"/>
+                    </td>
+                    <tr>
+                        <td colspan="2">
+                            <img style="width: 27px; height: 27px;" src="{{facebookIcon}}" alt="FacebookIcon">
+                            <img style="width: 27px; height: 27px;" src="{{instagramIcon}}" alt="InstragramIcon">
+                            <img style="width: 27px; height: 27px;" src="{{twitterIcon}}" alt="TwitterIcon">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <p style="font-size: smaller; font-style: italic;">{{text9}} <a href="">{{text10}}</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,723 @@
+<div class="container p-0">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <button ngbNavLink>{{ '::Event' | abpLocalization }}</button>
+      <ng-template ngbNavContent>
+        <form [formGroup]="createEvent" (ngSubmit)="onSave()" skipValidation>
+          <div class="container">
+            <div class="row container-wizard">
+              <div class="col-12 col-lg-8 mr-lg-4 mb-5">
+                <label for="nameEvent" class="form-label">{{ '::Name' | abpLocalization }}</label>
+                <input type="name" class="form-control" id="name" placeholder="{{ '::NameOfEvent' | abpLocalization }}"
+                  formControlName="name" />
+                <div *ngIf="
+                    (createEvent.get('name').invalid ||
+                      createEvent.get('photoGallery').invalid ||
+                      createEvent.get('photoDetail').invalid) &&
+                    (createEvent.get('name').dirty ||
+                      createEvent.get('name').touched ||
+                      createEvent.get('photoGallery').dirty ||
+                      createEvent.get('photoGallery').touched ||
+                      createEvent.get('photoDetail').dirty ||
+                      createEvent.get('photoDetail').touched)
+                  " class="form-text text-danger">
+                  <div *ngIf="createEvent.get('name').errors?.['required']">
+                    {{ '::NameRequired' | abpLocalization }}
+                  </div>
+                  <div *ngIf="createEvent.get('name').errors?.['minlength']">
+                    {{ '::NameMinLegth' | abpLocalization }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-8 mr-lg-4 mb-5">
+                <label for="descriptionEvent" class="form-label">{{
+                  '::Description' | abpLocalization
+                  }}</label>
+                <textarea class="form-control" id="description" rows="5"
+                  placeholder="{{ '::DescriptionOfEvent' | abpLocalization }}" formControlName="description"></textarea>
+                <div *ngIf="
+                    createEvent.get('description').invalid &&
+                    (createEvent.get('description').dirty || createEvent.get('description').touched)
+                  " class="form-text text-danger">
+                  <div *ngIf="createEvent.get('description').errors?.['required']">
+                    {{ '::DescriptionRequired' | abpLocalization }}
+                  </div>
+                  <div *ngIf="createEvent.get('description').errors?.['minlength']">
+                    {{ '::DescriptionMinLegth' | abpLocalization }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-8 mr-lg-4 mb-5">
+                <label for="direction" class="form-label">{{
+                  '::Direction' | abpLocalization
+                  }}</label>
+                <input type="direction" class="form-control" id="direction"
+                  placeholder="{{ '::DirectionOfEvent' | abpLocalization }}" formControlName="place" />
+                <div *ngIf="
+                    createEvent.get('place').invalid &&
+                    (createEvent.get('place').dirty || createEvent.get('place').touched)
+                  " class="form-text text-danger">
+                  <div *ngIf="createEvent.get('place').errors?.['required']">
+                    {{ '::DirectionRequired' | abpLocalization }}
+                  </div>
+                  <div *ngIf="createEvent.get('place').errors?.['minlength']">
+                    {{ '::DirectionMinLength' | abpLocalization }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-8 mr-lg-4 mb-5">
+                <label for="imageEvent" class="form-label">{{ '::Image' | abpLocalization }}</label>
+                <div [class.disabled]="isDisabled">
+                  <label for="image1">{{ '::ImageGalery' | abpLocalization }}</label>
+                  <input type="file" id="photoGallery" accept="image/*"
+                    (change)="onFileSelected($event, 'photoGallery')" />
+                </div>
+                <div *ngIf="createEvent.get('photoGallery').errors?.['size']" class="form-text text-danger">
+                  {{ '::ImageDimensionsError' | abpLocalization }}
+                </div>
+                <div class="mt-2" *ngIf="
+                    createEvent.get('photoGallery')?.value &&
+                    isString(createEvent.get('photoGallery')?.value) && !fileUploadedGallery
+                  ">
+                  <img [src]="createEvent.get('photoGallery')?.value" alt="" style="width: 300px; height: 120px" />
+                  <label> {{ '::ImageLoad' | abpLocalization }}</label>
+                </div>
+                <div class="mt-4">
+                  <label for="image2">{{ '::ImageDetail' | abpLocalization }}</label>
+                  <input type="file" id="photoDetail" accept="image/*"
+                    (change)="onFileSelected($event, 'photoDetail')" />
+                </div>
+                <div *ngIf="createEvent.get('photoDetail').errors?.['size']" class="form-text text-danger">
+                  {{ '::ImageDimensionsError' | abpLocalization }}
+                </div>
+                <div class="mt-2" *ngIf="
+                    createEvent.get('photoDetail')?.value &&
+                    isString(createEvent.get('photoDetail')?.value) && !fileUploadedDetail
+                  ">
+                  <img [src]="createEvent.get('photoDetail')?.value" alt="" style="width: 200px; height: 200px" />
+                  <label> {{ '::ImageLoad' | abpLocalization }}</label>
+                </div>
+                <div class="col 4 mt-5">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="imageCarousel"
+                    name="imageCarousel"
+                    formControlName="isMain"
+                  />
+                  <label for="imageCarousel" class="form-label ms-3">{{
+                    '::ImageCarousel' | abpLocalization
+                  }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-sm btn-outline-primary" [disabled]="active === 2" [disabled]="
+                    createEvent.get('name').invalid ||
+                    createEvent.get('description').invalid ||
+                    createEvent.get('place').invalid ||
+                    (!fileUploadedGallery && !createEvent.get('photoGallery').value) ||
+                    (!fileUploadedDetail && !createEvent.get('photoDetail').value)
+                  " (click)="nav.select(2)">
+                  {{ '::Next' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <button ngbNavLink>{{ '::Tickets' | abpLocalization }}</button>
+      <ng-template ngbNavContent>
+        <form [formGroup]="createEvent" skipValidation>
+          <div class="container">
+            <div class="row container-wizard">
+              <div [formGroup]="pricesEvent">
+                <div class="row mb-5 ms-5">
+                  <div class="col-4">
+                    <div>
+                      <label for="categoryTicket" class="form-label">{{
+                        '::Category' | abpLocalization
+                        }}</label>
+                    </div>
+                    <div>
+                      <div ngbDropdown class="d-inline-block me-2">
+                        <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                          {{ selectedCategory || '::Options' | abpLocalization }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-menu-scroll">
+                          <!-- Itera sobre las categorías y muestra cada una como un item del dropdown -->
+                          <button *ngFor="let category of categories.items" ngbDropdownItem
+                            (click)="selectCategory(category.name, category.id)">
+                            {{ category.name }}
+                          </button>
+                        </div>
+                      </div>
+                      <button id="create" class="btn btn-primary" type="button" (click)="createOrEditCategory()">
+                        <i class="fa fa-plus align-middle"></i>
+                        <span></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div>
+                      <label for="sectorTicket" class="form-label">{{
+                        '::Sector' | abpLocalization
+                        }}</label>
+                    </div>
+                    <div>
+                      <div ngbDropdown class="d-inline-block me-2">
+                        <button type="button" class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>
+                          {{ selectedSector || '::Options' | abpLocalization }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="dropdown-menu-scroll">
+                          <!-- Itera sobre los sectores y muestra cada uno como un item del dropdown -->
+                          <button *ngFor="let sector of sectors.items" ngbDropdownItem
+                            (click)="selectSector(sector.name, sector.id)">
+                            {{ sector.name }}
+                          </button>
+                        </div>
+                      </div>
+                      <button id="create" class="btn btn-primary" type="button" (click)="createOrEditSector()">
+                        <i class="fa fa-plus align-middle"></i>
+                        <span></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-5 ms-5">
+                  <div class="col-4">
+                    <label for="countTicket" class="form-label">{{
+                      '::Amount' | abpLocalization
+                      }}</label>
+                    <input type="count" class="form-control" id="count"
+                      placeholder="{{ '::AmountOfTicket' | abpLocalization }}" formControlName="count" />
+                    <div *ngIf="
+                        pricesEvent.get('count').invalid &&
+                        (pricesEvent.get('count').dirty || pricesEvent.get('count').touched)
+                      " class="form-text text-danger">
+                      <div *ngIf="pricesEvent.get('count').errors?.['required']">
+                        {{ '::AmountRequired' | abpLocalization }}
+                      </div>
+                      <div *ngIf="pricesEvent.get('count').errors?.['min']">
+                        {{ '::AmountMin' | abpLocalization }}
+                      </div>
+                      <div *ngIf="pricesEvent.get('count').errors?.['pattern']">
+                        {{ '::Pattern' | abpLocalization }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <label for="priceTicket" class="form-label">{{
+                      '::Price' | abpLocalization
+                      }}</label>
+                    <input type="price" class="form-control" id="price"
+                      placeholder="{{ '::PriceOfTicket' | abpLocalization }}" formControlName="price" />
+                    <div *ngIf="
+                        pricesEvent.get('price').invalid &&
+                        (pricesEvent.get('price').dirty || pricesEvent.get('price').touched)
+                      " class="form-text text-danger">
+                      <div *ngIf="pricesEvent.get('price').errors?.['required']">
+                        {{ '::PriceRequired' | abpLocalization }}
+                      </div>
+                      <div *ngIf="pricesEvent.get('price').errors?.['min']">
+                        {{ '::PriceMin' | abpLocalization }}
+                      </div>
+                      <div *ngIf="pricesEvent.get('price').errors?.['pattern']">
+                        {{ '::Pattern' | abpLocalization }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row md-2">
+                <div class="col-9 d-flex justify-content-center">
+                  <button class="btn btn-sm btn-primary me-2 btn-fixed-height" (click)="saveFormPartTwo()"
+                    [disabled]="pricesEvent.invalid">
+                    {{ '::addticket' | abpLocalization }}
+                  </button>
+                </div>
+              </div>
+              <div class="container mt-4">
+                <div class="col-9">
+                  <div class="card">
+                    <div class="card-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">{{ '::Event' | abpLocalization }}</th>
+                            <th scope="col">{{ '::Category' | abpLocalization }}</th>
+                            <th scope="col">{{ '::Sector' | abpLocalization }}</th>
+                            <th scope="col">{{ '::Amount' | abpLocalization }}</th>
+                            <th scope="col">{{ '::Price' | abpLocalization }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let ticket of tickets; let i = index">
+                            <td>{{ createEvent.get('name')?.value }}</td>
+                            <td>{{ ticket.ticketCategoryName }}</td>
+                            <td>{{ ticket.ticketSectorName }}</td>
+                            <td>{{ ticket.count }}</td>
+                            <td>{{ ticket.price }}</td>
+                            <td>
+                              <button class="btn btn-danger" (click)="DeleteEventTable(i)">
+                                {{ '::Delete' | abpLocalization }}
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+              <button class="btn btn-sm btn-outline-primary me-2" (click)="nav.select(1)">
+                {{ '::Back' | abpLocalization }}
+              </button>
+              <button class="btn btn-sm btn-outline-primary" (click)="nav.select(3)"
+                [disabled]="elementsInTablePartTwo()">
+                {{ '::Next' | abpLocalization }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="3">
+      <button ngbNavLink>{{ '::Functions' | abpLocalization }}</button>
+      <ng-template ngbNavContent>
+        <form [formGroup]="createPartThree" skipValidation>
+          <div class="container">
+            <div class="row container-wizard">
+              <div class="row pe-0">
+                  <div class="form-group pe-0">
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-12 col-md-6">
+                        <label for="datepicker">{{ '::StartDateTime' | abpLocalization }}:</label>
+                        <div class="row">
+                          <div class="col-12 col-md-6 col-lg-8 d-flex align-items-center">
+                            <div class="input-group w-100">
+                              <input class="form-control" placeholder="yyyy-mm-dd" formControlName="startDate" ngbDatepicker [minDate]="minStartDate"
+                                #d="ngbDatepicker" [(ngModel)]="startDate" (ngModelChange)="onStartDateChange($event)" />
+                              <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center justify-content-center">
+                            <ngb-timepicker [(ngModel)]="startSelectedTime" formControlName="startHour"></ngb-timepicker>
+                          </div>
+                          <div *ngIf="
+                                createPartThree.get('startDate').invalid &&
+                                createPartThree.get('startDate').touched &&
+                                createPartThree.get('startDate').value
+                              " class="form-text text-danger" role="alert">
+                              {{ '::DateError' | abpLocalization }}
+                            </div>
+                            <div *ngIf="
+                                createPartThree.get('startDate').value &&
+                                isPastDate(createPartThree.get('startDate').value)
+                              " class="form-text text-danger" role="alert">
+                              {{ '::StartDateError' | abpLocalization }}
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <label for="datepicker">{{ '::EndDateTime' | abpLocalization }}:</label>
+                        <div class="row d-flex justify-content-rigth">
+                          <div class="col-12 col-md-6 col-lg-8 d-flex align-items-center">
+                            <div class="input-group w-100">
+                              <input class="form-control" placeholder="yyyy-mm-dd" formControlName="endDate" ngbDatepicker
+                                #f="ngbDatepicker" [minDate]="minDate"/>
+                              <button class="btn btn-outline-secondary bi bi-calendar3" (click)="f.toggle()"
+                                type="button"></button>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-6 col-lg-4 d-flex align-items-center justify-content-center">
+                            <ngb-timepicker [(ngModel)]="endSelectedTime" formControlName="endHour"></ngb-timepicker>
+                          </div>
+                          <div *ngIf="
+                                createPartThree.get('endDate').invalid &&
+                                createPartThree.get('endDate').touched &&
+                                createPartThree.get('endDate').value
+                              " class="form-text text-danger" role="alert">
+                              {{ '::DateError' | abpLocalization }}
+                            </div>
+                            <div *ngIf="
+                                createPartThree.get('endDate').value &&
+                                isPastDate(createPartThree.get('endDate').value)
+                              " class="form-text text-danger" role="alert">
+                              {{ '::EndDateError' | abpLocalization }}
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div *ngIf="errorMessageDateHour" class="alert alert-danger">
+                {{ '::EventEndMustBeAfterStart' | abpLocalization }}
+              </div>
+              <div class="container-fluid mb-3 mt-3 pe-0">
+                <div class="d-flex justify-content-end justify-content-md-center">
+                  <button class="btn btn-sm btn-primary me-3" (click)="saveFormPartThree()" [disabled]="
+                      createPartThree.get('startDate').invalid ||
+                      createPartThree.get('startHour').invalid
+                    ">
+                    <i class="fa fa-plus me-1"></i>
+                    <span>{{ '::AddFuction' | abpLocalization }}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="container mt-4">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col" class="text-start text-md-center">
+                              <span class="d-none d-md-inline">{{ '::StartDate' | abpLocalization }}</span>
+                              <span class="d-inline d-md-none">{{ '::Start' | abpLocalization }}</span>
+                            </th>
+                            <th scope="col" class="text-start text-md-center">
+                              <span class="d-none d-md-inline">{{ '::EndDate' | abpLocalization }}</span>
+                              <span class="d-inline d-md-none">{{ '::End' | abpLocalization }}</span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let event of function; let i = index">
+                            <td class="text-center">
+                              <div class="row">
+                                <!-- On mobile devices -->
+                                <div class="col-12 d-flex flex-column align-items-start d-md-none">
+                                  <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-calendar3 small-icon"></i>
+                                    <small class="ms-2 small-text">{{ event.startDate | date : 'dd MMM yyyy' }}</small>
+                                  </div>
+                                  <div class="d-flex align-items-center">
+                                    <i class="bi bi-clock small-icon"></i>
+                                    <small class="ms-2 small-text">{{ event.startDate | date : 'HH:mm' }}</small>
+                                  </div>
+                                </div>
+
+                                <!-- On larger screens -->
+                                <div class="col-12 d-none d-md-flex">
+                                  <div class="col-12 col-md-6 d-flex justify-content-end">
+                                    <i class="bi bi-calendar3"></i>
+                                    <span class="ms-2">{{ event.startDate | date : 'dd MMM yyyy' }}</span>
+                                  </div>
+                                  <div class="col-12 col-md-6 d-flex justify-content-start">
+                                    <i class="bi bi-clock ms-3"></i>
+                                    <span class="ms-2">{{ event.startDate | date : 'HH:mm' }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              <ng-container *ngIf="event.endDate">
+                                <div class="row">
+                                  <!-- On mobile devices -->
+                                  <div class="col-12 d-flex flex-column align-items-start d-md-none">
+                                    <div class="d-flex align-items-center mb-2">
+                                      <i class="bi bi-calendar3 small-icon"></i>
+                                      <span class="ms-2 small-text">{{ event.endDate | date : 'dd MMM yyyy' }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                      <i class="bi bi-clock small-icon"></i>
+                                      <span class="ms-2 small-text">{{ event.endDate | date : 'HH:mm' }}</span>
+                                    </div>
+                                  </div>
+
+                                  <!-- On larger screens -->
+                                  <div class="col-12 d-none d-md-flex">
+                                    <div class="col-12 col-md-6 d-flex justify-content-end">
+                                      <i class="bi bi-calendar3"></i>
+                                      <span class="ms-2">{{ event.endDate | date : 'dd MMM yyyy' }}</span>
+                                    </div>
+                                    <div class="col-12 col-md-6 d-flex justify-content-start">
+                                      <i class="bi bi-clock ms-3"></i>
+                                      <span class="ms-2">{{ event.endDate | date : 'HH:mm' }}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </td>
+                            <td class="text-center">
+                              <i class="bi bi-trash-fill text-danger pointer-cursor" (click)="DeleteFunctionTable(i)" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ '::Delete' | abpLocalization }}" data-bs-custom-class="custom-tooltip"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-end justify-content-md-center">
+                <button class="btn btn-sm btn-primary me-4" (click)="nav.select(2)">
+                  {{ '::Back' | abpLocalization }}
+                </button>
+                <button class="btn btn-sm btn-primary" (click)="nav.select(4)"
+                  [disabled]="elementsInTablePartThree()">
+                  {{ '::Next' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="4">
+      <button ngbNavLink>{{ '::PaymentMethods' | abpLocalization }}</button>
+      <ng-template ngbNavContent>
+        <form [formGroup]="createEvent" skipValidation>
+          <div class="container">
+            <div class="row container-wizard">
+              <div class="col-12 col-lg-8 mr-lg-4 mb-5">
+                <div class="col-6">
+                  <div class="row ms-3">
+                    <label for="paymentmethods" class="form-label">{{
+                      '::PaymentMethods' | abpLocalization
+                      }}</label>
+                  </div>
+                  <div class="card mt-4">
+                    <div class="card-body">
+                      <div *ngFor="let provider of providerPayments.items" class="form-check">
+                        <input
+                          class="form-check-input me-5"
+                          type="checkbox"
+                          [value]="provider.id"
+                          id="payment{{ provider.id }}"
+                          [checked]="isPaymentMethodSelected(provider.id)"
+                          (change)="
+                            updateSelectedPaymentMethods($event.target.value, $event.target.checked)
+                          "
+                        />
+                        <label class="form-check-label ms-5" [for]="'payment' + provider.id">{{
+                          provider.name
+                        }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="this.createEvent.get('idProviderPayment').invalid"
+                    class="form-text text-danger"
+                  >
+                    {{ '::ChooseOption' | abpLocalization }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-end">
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="nav.select(3)">
+                  {{ '::Back' | abpLocalization }}
+                </button>
+                <button class="btn btn-sm btn-outline-primary" (click)="nav.select(5)"
+                  [disabled]="this.createEvent.get('idProviderPayment').invalid">
+                  {{ '::Next' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="5">
+      <button ngbNavLink>{{ '::ExtraSettings' | abpLocalization }}</button>
+      <ng-template ngbNavContent>
+        <form [formGroup]="createPartTFive" skipValidation>
+          <div class="container">
+            <div class="row container-wizard">
+              <div class="row col-12 col-lg-8 mr-lg-4 mb-5">
+                <div class="col-4">
+                  <label class="form-check-label ms-3" for="defaultcolor">{{
+                    '::DefaultColor' | abpLocalization
+                  }}</label>
+                  <div class="p-3 w-50 border border-dark ml-auto" style="margin-left: 25px"
+                    [style.background-color]="createPartTFive.get('chosenColor').value"></div>
+                </div>
+                <div class="col-4">
+                  <label class="form-check-label ms-3" for="defaultlogo">{{
+                    '::DefaultLogo' | abpLocalization
+                  }}</label>
+                  <div>
+                    <a href="#">
+                      <img src="assets/images\logo/logo-dark.png" alt="Nombre del Sitio" class="img-fluid" width="120"
+                        height="40" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row col-12 col-lg-8 mr-lg-4 mb-5">
+                <div class="row">
+                  <div class="col-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="customizeColor"
+                      name="customizeColor"
+                      formControlName="customizeColor"
+                    />
+                    <label for="colorPicker" class="form-label ms-3"
+                      >{{ '::CustomizeColorAndLogo' | abpLocalization }}:</label
+                    >
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="col-8" *ngIf="createPartTFive.get('customizeColor').value">
+                      <input type="color" id="colorPicker" class="form-control" name="chosenColor"
+                        formControlName="chosenColor" />
+                    </div>
+                  </div>
+                  <div class="col-4" *ngIf="createPartTFive.get('customizeColor').value">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="uploadLogo"
+                      (change)="onFileSelected($event, 'photoLogo')"
+                    />
+                    <div
+                      *ngIf="createEvent.get('photoLogo').errors?.['size']"
+                      class="form-text text-danger"
+                    >
+                      {{ '::ImageDimensionsError' | abpLocalization }}
+                    </div>
+                    <div
+                      class="mt-2"
+                      *ngIf="
+                        createEvent.get('photoLogo')?.value &&
+                        isString(createEvent.get('photoLogo')?.value) && !fileUploadedLogo
+                      ">
+                      <div class="d-flex flex-column align-items-center">
+                        <img [src]="createEvent.get('photoLogo')?.value" alt="" style="width: 100px; height: 100px" />
+                        <label class="mt-2"> {{ '::LogoLoad' | abpLocalization }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-3 text-center">
+                  <label class="form-label h4">{{ '::TicketsPerPerson' | abpLocalization }}</label>
+                  <br>
+                  <br>
+                  <div class="input-group custom-input-group">
+                    <small class="custom-label">{{ '::Quantity' | abpLocalization }}</small>
+                    <input type="number" class="form-control border-0 custom-input" formControlName="saleForPerson" min="0">
+                  </div>
+                  <small class="form-text text-center text-danger">
+                    <div>{{ '::TotalEntriesAllowed' | abpLocalization }}</div>
+                    <div>{{ '::BuyPerPerson' | abpLocalization }}</div>
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-end">
+                <button class="btn btn-sm btn-outline-primary me-2" (click)="nav.select(4)">
+                  {{ '::Back' | abpLocalization }}
+                </button>
+                <button class="btn btn-sm btn-outline-primary" (click)="nav.select(6)"
+                  [disabled]="!isFinishButtonEnabled()">
+                  {{ '::Next' | abpLocalization }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="6">
+        <button ngbNavLink>{{ '::User' | abpLocalization }}</button>
+        <ng-template ngbNavContent>
+          <form [formGroup]="createPartTFive">
+            <div class="container">
+              <div class="row container-wizard">
+                <div class="row d-flex justify-content-center m-0 p-0" >
+                  <div class="col-12">
+                    <label for="paymentmethods" class="form-label">{{ '::User' | abpLocalization }}</label>
+                  </div>
+                  <div class="col-12 col-md-6 d-flex justify-content-center mb-5 custom-dropdown">
+                    <input
+                        id="typeahead-format"
+                        type="text"
+                        class="form-control"
+                        [formControl]="userInput"
+                        [ngbTypeahead]="filteredUser"
+                        [resultFormatter]="resultFormatter"
+                        [inputFormatter]="inputFormatter"
+                        (selectItem)="onSelect($event)"
+                        placeholder="{{ '::Search' | abpLocalization }}"
+                    />
+                </div>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-12 col-md-6">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">{{ '::Name' | abpLocalization }}</th>
+                            <th scope="col">{{ '::TypeUser' | abpLocalization }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let user of selectedUsers; let i = index">
+                            <td>{{ user.email }}</td>
+                            <td>
+                              <div>
+                                <div ngbDropdown class="d-inline-block me-2">
+                                  <button type="button" class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>
+                                    {{ getTypeUserText(user.id) | abpLocalization }}
+                                  </button>
+                                  <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                                    <button *ngFor="let option of typeUserEventOptions" ngbDropdownItem
+                                      (click)="selectedTypeUser(user.id, option.key)">
+                                      {{ getTranslatedOption(option.key) | abpLocalization }}
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <button class="btn btn-danger" (click)="deleteTypeTable(i)">
+                                {{ '::Delete' | abpLocalization }}
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 d-flex justify-content-end">
+                  <button class="btn btn-sm btn-outline-primary me-2" (click)="nav.select(5)">
+                    {{ '::Back' | abpLocalization }}
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary"
+                          (click)="onFinalizarClick()"
+                          [disabled]="finalizarClicked || isFinalizeDisabled() || !this.createEvent.valid">
+                    {{ '::Finish' | abpLocalization }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+      </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>

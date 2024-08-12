@@ -1,0 +1,33 @@
+.line {
+  border: none;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #0f0f0f, transparent);
+}
+
+.text-mtb {
+  margin-top: 1px;
+  margin-bottom: 0;
+}
+
+.btn-shared{
+  .btn-shared-content{
+    background-color: #f0f0f0;
+
+    button{
+      width: 100px;
+
+      .bi-whatsapp{
+        color: #25D366;
+        font-size: 2rem;
+      }
+
+      .bi-envelope{
+        font-size: 2rem;
+      }
+
+      label{
+        font-size: 1rem;
+      }
+    }
+  }
+}

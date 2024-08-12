@@ -1,0 +1,46 @@
+.terms-and-conditions-wrapper {
+  text-align: left;
+  max-width: 720px;
+  margin: auto;
+  padding: 0 30px;
+}
+
+.terms-and-conditions {
+  font-size: 1.25rem;
+}
+
+.terms-and-conditions p {
+  margin-bottom: 20px;
+  text-align: left;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .terms-and-conditions-wrapper {
+    padding: 0 20px;
+  }
+
+  .terms-and-conditions {
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 576px) {
+    .terms-and-conditions-wrapper {
+      padding: 0 15px;
+    }
+
+    .terms-and-conditions {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .terms-and-conditions-wrapper {
+      padding: 0 10px;
+    }
+
+    .terms-and-conditions {
+      font-size: 1.15rem;
+    }
+  }
+}

@@ -1,0 +1,89 @@
+<div class="container" *ngIf="event !== null">
+  <div class="row">
+    <!-- Photo Gallery -->
+    <div class="col-md-8 mb-3">
+      <img src="{{event.photoGallery}}" class="event-img rounded" alt="">
+    </div>
+
+    <!-- Event Dates -->
+    <div class="col-md-4 card pt-3">
+
+      <h5 class="fw-bold text-center mb-3">{{ event.name }}</h5>
+      <h6 *ngIf="!event.isActive && event.eventStatus == 0" class="text-center text-danger mb-0">{{ '::PurchaseDisabled' | abpLocalization }}</h6>
+      <h6 *ngIf="event.eventStatus == 2" class="text-center text-danger mb-0">{{ '::Event' | abpLocalization }} {{ '::SoldOut' | abpLocalization }}</h6>
+      <h6 *ngIf="event.eventStatus == 1" class="text-center mb-0">{{ '::EventFinished' | abpLocalization }}</h6>
+      <ul class="list-group list-group-flush mt-2" *ngIf="event.eventStatus == 0 || event.eventStatus == 2">
+        <li class="list-group-item" *ngFor="let eventDate of event?.eventDates">
+          <div class="row">
+            <div class="col">
+              <i class="bi bi-calendar4-event me-1" style="font-size: 0.9em;"></i>
+              <span style="font-size: 0.9em;">{{ eventDate.startDate | date:'EEE d \'de\' MMM' }}</span>
+              <br>
+              <i class="bi bi-clock me-1" style="font-size: 0.9em;"></i>
+              <span style="font-size: 0.9em;">{{ eventDate.startDate | date:'HH:mm' }}</span>
+
+            </div>
+            <div class="col text-end">
+                <button type="button" class="btn btn-primary" (click)="buy(eventDate)" [disabled]="isDateInPast(eventDate.startDate) || !event.isActive || event.eventStatus == 2">
+                <i class="fa fa-ticket" aria-hidden="true"></i>
+                Comprar
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="d-flex flex-column align-items-center" *ngIf="event.eventStatus == 0 || event.eventStatus == 2">
+        <div class="d-flex align-items-center mt-2">
+          <i class="bi bi-geo-alt-fill me-1" style="font-size: 0.9em;"></i>
+          <span style="font-size: 0.9em;">{{ event.place }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card mb-6 col-12">
+      <div class="row">
+        <!-- Description -->
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ '::DetailEvent' | abpLocalization }}</h5>
+            <p class="card-text">{{ event.description }}</p>
+          </div>
+        </div>
+        <!-- Photo Detail -->
+        <div class="col-md-4" id="divImage">
+          <img class="img-fluid rounded-end w-100" [src]="event.photoDetail" alt="..." >
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card col-12">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div class="row">
+          <div class="col-md-4">
+            <h5 class="card-title">
+              <b>1</b> {{ '::Chose' | abpLocalization }} <i class="bi bi-pencil-fill"></i>
+            </h5>
+            <p class="card-text">{{ '::DescriptionIChose' | abpLocalization }}</p>
+          </div>
+          <div  class="col-md-4">
+            <h5 class="card-title">
+              <b>2</b> {{ '::Pay' | abpLocalization }} <i class="bi bi-credit-card-2-back-fill"></i>
+            </h5>
+            <p class="card-text">{{ '::DescriptionPay' | abpLocalization }}</p>
+          </div>
+          <div  class="col-md-4">
+            <h5 class="card-title">
+              <b>3</b> {{ '::Receive' | abpLocalization }} <i class="bi bi-check-square-fill"></i>
+            </h5>
+            <p class="card-text">{{ '::DescriptionReceive' | abpLocalization }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

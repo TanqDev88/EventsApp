@@ -1,0 +1,28 @@
+<div class="alert alert-dismissible shadow bg-success-subtle">
+
+  <div class="row ps-3">
+    <div class="col-9 text-start">
+      <strong>{{ '::TotalSales' | abpLocalization }}</strong>
+    </div>
+    <div class="col-3 text-end">
+      <i class="fa fa-money icon-md" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <!-- Count tickets -->
+  <div class="row ps-3">
+    <div class="col text-center pt-1 pb-1">
+      <strong class="number-md">$<span #countUp [countUp]="total" [options]="{decimalPlaces:2}">{{totalTicketsSold}}</span></strong><small> MXN</small>
+    </div>
+  </div>
+
+  <!-- Last time update -->
+  <div class="row">
+    <div class="col text-end">
+      <small class="text-success" *ngIf="isPurchase">{{ '::LastPurchase' | abpLocalization }}</small><small class="text-secondary"> {{lastLoad}}</small>
+    </div>
+  </div>
+
+  <!-- Loading Block Card-->
+  <app-card-block [load]="load"></app-card-block>
+</div>

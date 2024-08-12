@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  ticketera.httpapi.host:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Local
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Pwd0123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+
+    ports:
+      - "44311:443"
+    volumes:
+      - ~/.aspnet/https:/https:ro

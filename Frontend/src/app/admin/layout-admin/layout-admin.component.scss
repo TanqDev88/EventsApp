@@ -1,0 +1,51 @@
+main {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 100vh;
+    height: -webkit-fill-available;
+    max-height: 100vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    .main-container {
+      width: 100%;
+      overflow-y: auto;
+    }
+  }
+
+  .modal-body{
+    text-align: center;
+  }
+
+  .modal-footer{
+    justify-content: center;
+  }
+
+  .min-div{
+    min-height: 60vh;
+  }
+
+  .navbar-sidebar-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar {
+    margin-bottom: 0;
+  }
+
+  app-sidebar {
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+
+  #divSidebar{
+    margin-top: 3em;
+  }
+
+  #divContent{
+    margin-top: 40px;
+  }
+

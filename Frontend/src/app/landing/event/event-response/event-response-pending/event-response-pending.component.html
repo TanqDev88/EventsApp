@@ -1,0 +1,27 @@
+<!-- State pending -->
+<div class="container">
+
+  <!-- Logo -->
+  <div class="row justify-content-center mt-5">
+    <div class="col-4 text-center">
+      <i class="fa fa-clock-o" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-6 text-center text-title">
+      <strong>Reservaci&oacute;n pendiente</strong>
+      <br>
+      <strong>de pago</strong>
+    </div>
+  </div>
+
+  <!-- Resume -->
+  <div class="row justify-content-center mt-4" *ngIf="purchase !== null">
+    <div class="col-6 text-center">
+      <small>Recuerda realizar tu pago en las pr&oacute;ximas 48 horas.</small><br>
+      <small>Una vez completado, recibir&aacute;s la confirmaci&oacute;n de tu compra</small>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Pending Email</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* h1 {
+            color: #333333;
+        }
+
+        p {
+            color: #666666;
+        } */
+
+        table {
+            width: 100%;
+        }
+
+        /* th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        } */
+
+        /* th {
+            background-color: #f2f2f2;
+        } */
+
+        /* Estilos específicos para Outlook */
+        @media only screen and (min-width: 481px) {
+            .container {
+                width: 480px !important;
+            }
+        }
+
+        /* Estilos para dispositivos móviles */
+        @media only screen and (max-width: 500px) {
+            .container {
+                width: 100% !important;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <td style="text-align: right;">
+                        <img style="height: 30px; max-width: 120px;" src="{{logoTixGo}}" alt="LogoTixGo">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br><br><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td  style="text-align: left;">
+                        {{text2}},
+                    </td>
+                </tr>
+                <tr>
+                    <td  style="text-align: left;">
+                        <br>
+                        {{text3}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <br><br><br>
+                        <img src="{{imagePending}}" alt="ImagePending">
+                    </td>
+                </tr>
+            </thead>
+        </table>
+        <table>
+            <tbody>
+                <tr style="text-align: center;">
+                    <td colspan="2">
+                        <h1>{{paymentPending}}</h1>
+                    </td>
+                </tr>                
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr style="text-align: center;">
+                    <td colspan="2">
+                        <p>{{descriptionPaymentPending}}</p>
+                    </td>
+                </tr> 
+                <tr>
+                    <td>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: transparent;"><hr style="border: none; height: 3px; background: linear-gradient(to right, transparent, #d7d7dd, transparent);"/></td>
+                </tr>
+                <tr style="text-align: center;">
+                    <td colspan="2">
+                        <img style="height: 25px; height: 25px;" src="{{facebookIcon}}" alt="FacebookIcon">
+                        <img style="width: 27px; height: 27px;" src="{{instagramIcon}}" alt="InstragramIcon">
+                        <img style="width: 27px; height: 27px;" src="{{twitterIcon}}" alt="TwitterIcon">
+                    </td>
+                </tr>
+                <tr style="text-align: center;">
+                    <td colspan="2">
+                        <p style="font-size: smaller; font-style: italic;">{{text9}} <a href="">{{text10}}</a></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

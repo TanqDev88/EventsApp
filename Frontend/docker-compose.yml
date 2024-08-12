@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  ticketera:
+    image: node:18
+    working_dir: /app
+    ports:
+      - "4200:4200"
+      - "9229:9229"  # Puerto de depuración para Node.js
+    volumes:
+      - .:/app
+    command: >
+      bash -c "npm install -g @angular/cli && yarn install --force && ng serve --host 0.0.0.0 --poll 1"

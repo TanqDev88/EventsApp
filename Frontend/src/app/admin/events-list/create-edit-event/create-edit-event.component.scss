@@ -1,0 +1,73 @@
+.tab-content {
+  height: 80vh;
+}
+
+.container-wizard {
+  height: 65vh;
+  overflow-y: auto;
+}
+
+.btn-fixed-height {
+  height: 38px;
+}
+
+.custom-input-group {
+  border-bottom: 2px solid blue;
+  position: relative;
+}
+
+.custom-label {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  color: blue;
+}
+
+.custom-input {
+  box-shadow: none;
+  border-bottom: 2px solid transparent;
+  padding: 5px;
+}
+
+::ng-deep ngb-typeahead-window,
+::ng-deep ngb-typeahead-window.dropdown-menu {
+    max-height: 25em;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    z-index: 1050;
+    width: 95%;
+    box-sizing: border-box;
+}
+
+::ng-deep .custom-dropdown{
+  position: relative;
+  overflow: visible !important;
+}
+
+::ng-deep .custom-dropdown .form-control {
+  width: 100%;
+  height: 38px;
+}
+
+.dropdown-menu-scroll {
+  max-height: 334px;
+  overflow-y: auto;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+@media (max-width: 767.98px) {
+  .small-icon {
+    font-size: 0.7rem;
+  }
+  .small-text {
+    font-size: 0.7rem;
+  }
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: 2px solid #007bff;
+  color: #007bff;
+}

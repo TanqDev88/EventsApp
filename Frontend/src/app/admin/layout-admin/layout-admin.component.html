@@ -1,0 +1,21 @@
+<main *ngIf="layoutService.isAuthenticated">
+
+    <app-header-admin (sidebarVisibilityChange)="toggleSidebar($event)"></app-header-admin>
+
+  <div id="divSidebar">
+    <app-sidebar [hidden]="!sidebarVisible"></app-sidebar>
+  </div>
+
+  <div class="main-container" [@inOutPage]="oadmin.isActivated ? oadmin.activatedRoute : ''" >
+    <div class="d-flex flex-column pt-md-4 p-md-3 pt-3 p-2 min-div" [@inOutPage]="oadmin.isActivated ? oadmin.activatedRoute : ''" id="divContent">
+      <router-outlet #oadmin="outlet"></router-outlet>
+    </div>
+  </div>
+</main>
+
+
+
+<!-- <abp-dynamic-layout>
+  <router-outlet #o="outlet"></router-outlet>
+</abp-dynamic-layout> -->
+

@@ -1,0 +1,16 @@
+<div class="row" *ngIf="load">
+  <div class="col text-center" [ngStyle]="{'height':height}">
+    <!-- animation => progress | progress-dark | pulse -->
+    <ngx-skeleton-loader animation="progress" count="1" appearance="line" [theme]="{
+      height: '101%',
+      width: '101%',
+      margin: '0',
+      padding: '0',
+      position: 'absolute',
+      top: '-1px',
+      left: '-1px',
+      borderRadius: '6px',
+      opacity: '0.8'
+    }" ></ngx-skeleton-loader>
+  </div>
+</div>

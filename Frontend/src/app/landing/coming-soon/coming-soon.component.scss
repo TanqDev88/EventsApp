@@ -1,0 +1,66 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.app-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10000;
+  background-color: #003ca6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo-image {
+  max-width: 250px;
+  max-height: 20vh;
+  height: auto;
+  width: auto;
+}
+
+.coming-soon-text {
+  text-align: center;
+}
+
+.coming-soon-title {
+  font-size: 6vw;
+  color: white;
+  margin: 0;
+  font-family: 'Work Sans', 'Roboto';
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    max-width: 40vw;
+  }
+  .coming-soon-title {
+    font-size: 9vw;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-image {
+    max-width: 50vw;
+  }
+  .coming-soon-title {
+    font-size: 11vw;
+  }
+}

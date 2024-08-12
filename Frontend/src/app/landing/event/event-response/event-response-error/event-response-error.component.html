@@ -1,0 +1,26 @@
+<!-- State pending -->
+<div class="container">
+
+  <!-- Logo -->
+  <div class="row justify-content-center mt-5">
+    <div class="col-4 text-center">
+      <i class="bi bi-emoji-frown"></i>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-6 text-center text-title">
+      <strong>¡Error de pago!</strong>
+      <br>
+    </div>
+  </div>
+
+  <!-- Resume -->
+  <div class="row justify-content-center mt-4" *ngIf="purchase !== null">
+    <div class="col-6 text-center">
+      <small>No hemos podido procesar su pago, por favor intentelo</small><br>
+      <small>nuevamente</small>
+    </div>
+  </div>
+</div>

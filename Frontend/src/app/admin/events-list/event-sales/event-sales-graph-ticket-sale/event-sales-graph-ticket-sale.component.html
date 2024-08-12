@@ -1,0 +1,50 @@
+<div class="alert alert-dismissible shadow mb-3">
+
+  <div class="row mb-2">
+    <div class="col text-center">
+      <strong>{{sector.ticketCategoryName}} - {{sector.ticketSectorName}}</strong>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-6">
+      <div class="title pb-1">{{ '::TicketPrice' | abpLocalization }}</div>
+      <div class="text-custom-inline">$ <span class="price" #countUp [countUp]="price"
+          [options]="{decimalPlaces:2}">0.00</span><span> MXN</span></div>
+    </div>
+
+    <div class="col-6 pt-4 text-end">
+      <div class="text-custom-inline"><strong #countUp [countUp]="total">0</strong><span>{{ '::Tickets' | abpLocalization }}</span></div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col pt-2">
+
+      <canvas baseChart [labels]="doughnutChartLabels" [datasets]="doughnutChartDatasets"
+        [options]="doughnutChartOptions" [legend]="true" [type]="'doughnut'">
+      </canvas>
+
+    </div>
+  </div>
+
+  <div class="row pt-3">
+    <div class="col text-center">
+      <div class="title pb-1">{{ '::TotalSales' | abpLocalization }}</div>
+      <div class="text-custom-inline">$ <span class="price" #countUp [countUp]="priceTotal"
+          [options]="{decimalPlaces:2}">0.00</span><span> MXN</span></div>
+    </div>
+  </div>
+
+  <!-- Last time update -->
+  <div class="row pt-2">
+    <div class="col text-center">
+      <small class="text-success" *ngIf="isPurchase">{{ '::LastPurchase' | abpLocalization }}</small><small class="text-secondary"> {{lastLoad}}</small>
+    </div>
+  </div>
+
+  <!-- Loading Block Card-->
+  <app-card-block [load]="load"></app-card-block>
+</div>

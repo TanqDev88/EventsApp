@@ -1,0 +1,93 @@
+<div class="container">
+
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <img src="assets/images\logo/logo-dark.png" alt="Nombre del Sitio" class="img-fluid" width="120" height="40" />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-3">
+    <div class="col text-center">
+      <h1>{{ '::YourEntrance' | abpLocalization }}</h1>
+
+      <div class="row justify-content-center mb-3">
+        <div class="col-md-6">
+          <hr class="line" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row justify-content-center" *ngIf="ticket !== null">
+    <div class="col m-3 text-center">
+      <img width="250" height="250" [src]="codeUrl" alt="imageQrDisabled"
+        class="img-fluid rounded border border-dark bg-white p-2" (load)="onImageLoad()">
+
+      <div class="mt-3 btn-shared" *ngIf="!ticket.soldUsed">
+
+        <p *ngIf="showQrDisabled">{{ '::QrDisabled' | abpLocalization }}</p>
+        <p *ngIf="!showQrDisabled">{{ '::QrChange' | abpLocalization }}: {{ counter }}</p>
+        <a href="#" (click)="showButtons($event)">{{ '::ShareTicket' | abpLocalization }}</a>
+        <br>
+
+        <div *ngIf="buttons" class="btn-shared-content border border-dark d-inline-block p-2 rounded">
+          <button class="btn btn-light border-dark" (click)="shareByWhatsapp()" type="button">
+            <i class="bi bi-whatsapp"></i><br>
+            <label>Whatsapp</label>
+          </button>
+          <button class="btn btn-light border-dark" (click)="shareByEmail()" type="button">
+            <i class="bi bi-envelope"></i><br>
+            <label>Email</label>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-3" *ngIf="ticket.soldUsed">Entrada ya usada</div>
+
+      <div class="row justify-content-center mt-3 mb-3">
+        <div class="col-md-6">
+          <hr class="line" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <h2 *ngIf="ticket">{{ticket.title}}</h2>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-2">
+    <div class="col text-center">
+      <p><strong *ngIf="ticket">1 x {{ticket.ticketCategoryName}} - {{ticket.ticketSectorName}}</strong></p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-2">
+    <div class="col text-center">
+      {{ '::Place' | abpLocalization }}<br>
+      <p class="text-mtb">
+        <strong *ngIf="ticket">{{ticket.eventPlace}}</strong>
+      </p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-2 mb-5">
+    <div class="col-lg-2 col-md-3 col-6 text-center">
+      {{ '::Text6' | abpLocalization }}<br>
+      <p class="text-mtb">
+        <strong *ngIf="ticket">{{ticket.eventDateStartDate | date : 'dd/MM/yyyy'}}</strong>
+      </p>
+    </div>
+    <div class="col-lg-2 col-md-3 col-6 text-center">
+      {{ '::Text7' | abpLocalization }}<br>
+      <p class="text-mtb">
+        <strong *ngIf="ticket">{{ticket.eventDateStartDate | date : 'HH:mm'}}</strong>
+      </p>
+    </div>
+  </div>
+
+
+</div>

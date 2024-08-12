@@ -1,0 +1,56 @@
+<div class="container text-center" [abpLoading]="loadValidation">
+
+  <div class="row justify-content-center mt-3">
+    <div class="col col-lg-6">
+      <h3>Validar entradas</h3>
+      <hr class="hr">
+    </div>
+  </div>
+
+  <div class="row justify-content-center" *ngIf="hasDevices">
+    <div class="col col-lg-6">
+      <div ngbDropdown class="d-inline-block">
+        <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+          {{ currentDevice !== null ? currentDevice.label : 'Seleccione camara'}}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem *ngFor="let device of availableDevices" (click)="onDeviceSelectChange(device)">{{device.label}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-4" *ngIf="!hasDevices">
+    <div class="col col-lg-6">
+      <i class="fa fa-camera" aria-hidden="true"></i>
+      Debe autorizar el uso de camaras en su dispositivo
+
+      <p class="mt-4 mb-4">
+        En caso que ya autorizo el uso y no se mostro la camara, presione en el bot&oacute;n de abajo
+      </p>
+
+      <button class="btn btn-primary" type="button" (click)="reload()">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+        Refrescar</button>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-2">
+    <div class="col col-lg-6">
+      <zxing-scanner
+        [(device)]="currentDevice"
+        [formats]="formatsEnabled"
+        (scanSuccess)="onCodeResult($event)"
+        (permissionResponse)="onHasPermission($event)"
+        (camerasFound)="onCamerasFound($event)">
+      </zxing-scanner>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-2">
+    <div class="col col-lg-6">
+      <p>Escanee el codigo QR y espere que se valide</p>
+    </div>
+  </div>
+</div>
+

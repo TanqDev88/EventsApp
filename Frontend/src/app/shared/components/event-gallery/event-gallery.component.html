@@ -1,0 +1,253 @@
+<!-- Events to Carrousel -->
+<div class="container" [abpLoading]="eventsLoaded" *ngIf="isCarrousel">
+  <div class="row">
+    <div class="col">
+      <ngb-carousel>
+        <ng-template ngbSlide *ngFor="let event of events">
+          <div class="picsum-img-wrapper rounded" (click)="goTo(event.code)">
+            <img [src]="event.photoGallery" alt="" class="img-fluid w-100 shadow rounded carousel-img" />
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+  </div>
+</div>
+
+<!-- Search to events -->
+<div class="container">
+  <div class="{{disableCard ? '':'card'}}" *ngIf="!isCarrousel">
+
+    <!-- Information cards -->
+  <div class="container">
+    <div class="row" *ngIf="showNewEvent && isCreator">
+      <div class="col-12 col-md-3 mt-2">
+        <div class="alert alert-dismissible shadow">
+
+          <div class="row ps-3">
+            <div class="col-9 text-start small-font">
+              <strong>{{ '::TotalSales' | abpLocalization }}</strong>
+            </div>
+            <div class="col-3 text-end">
+              <i class="bi bi-cash-coin icon-md" aria-hidden="true"></i>
+            </div>
+          </div>
+
+          <div class="row ps-3">
+            <div class="col text-center">
+              <strong class="number-md me-2" #countUp [countUp]="total">{{infoEvents.totalRevenue}}</strong><small>MXN</small>
+            </div>
+          </div>
+
+          <!-- Loading Block Card-->
+          <app-card-block [load]="load"></app-card-block>
+
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 mt-2">
+        <div class="alert alert-dismissible shadow">
+
+          <div class="row ps-3">
+            <div class="col-9 text-start small-font">
+              <strong>{{ '::MyEvents' | abpLocalization }}</strong>
+            </div>
+            <div class="col-3 text-end">
+              <i class="bi bi-calendar-heart icon-md" aria-hidden="true"></i>
+            </div>
+          </div>
+
+          <div class="row ps-3">
+            <div class="col text-center">
+              <strong class="number-md me-2" #countUp [countUp]="total">{{infoEvents.totalActiveEvents}}</strong><small>{{ '::Events' | abpLocalization }}</small>
+            </div>
+          </div>
+
+          <!-- Loading Block Card-->
+          <app-card-block [load]="load"></app-card-block>
+
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 mt-2">
+        <div class="alert alert-dismissible shadow">
+
+          <div class="row ps-3">
+            <div class="col-9 text-start small-font">
+              <strong>{{ '::SalesPerDay' | abpLocalization }}</strong>
+            </div>
+            <div class="col-3 text-end">
+              <i class="bi bi-clipboard-data icon-md" aria-hidden="true"></i>
+            </div>
+          </div>
+
+          <div class="row ps-3">
+            <div class="col text-center">
+              <strong class="number-md me-2" #countUp [countUp]="total">{{infoEvents.ticketsSoldToday}}</strong><small>{{ '::Tickets' | abpLocalization }}</small>
+            </div>
+          </div>
+
+          <!-- Loading Block Card-->
+          <app-card-block [load]="load"></app-card-block>
+
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 mt-2">
+        <div class="alert alert-dismissible shadow">
+
+          <div class="row ps-3">
+            <div class="col-9 text-start small-font">
+              <strong>{{ '::TicketsSold' | abpLocalization }}</strong>
+            </div>
+            <div class="col-3 text-end">
+              <i class="bi bi-ticket-perforated icon-md" aria-hidden="true"></i>
+            </div>
+          </div>
+
+          <div class="row ps-3">
+            <div class="col text-center">
+              <strong class="number-md me-2" #countUp [countUp]="total">{{infoEvents.totalTicketsSold}}</strong><small>{{ '::Tickets' | abpLocalization }}</small>
+            </div>
+          </div>
+
+          <!-- Loading Block Card-->
+          <app-card-block [load]="load"></app-card-block>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    <div class="pt-4 mb-3 card-header">
+      <form (submit)="search()">
+
+        <div class="row">
+          <!-- Input Search -->
+          <div class="col-12 col-md-{{showNewEvent ? '5' : '8'}} mb-2">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="{{ '::SearchEvent' | abpLocalization }}"
+                [(ngModel)]="searchEvent.keyword" [ngModelOptions]="{standalone: true}" />
+
+              <button class="btn btn-primary" type="submit" id="button-addon2" title="Buscar" (click)="search()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <small class="w-100 ps-2">{{ '::PressEnterToSearch' | abpLocalization }}</small>
+          </div>
+
+          <!-- Date From and Date To -->
+          <div class="col-12 col-md-4 mb-3">
+            <app-date-from-to (selectedDate)="selectedDates($event)"></app-date-from-to>
+          </div>
+
+          <!-- Options -->
+          <div class="col-12 col-md-3 text-end" *ngIf="showNewEvent">
+            <button id="create" class="btn btn-primary w-100" type="button" (click)="createOrEditEvent()">
+              <i class="fa fa-plus me-1"></i>
+              <span>{{ '::NewEvent' | abpLocalization }}</span>
+            </button>
+          </div>
+
+        </div>
+
+      </form>
+
+
+    </div>
+
+
+    <!-- Events to Gallery -->
+    <div class="card-container row row-cols-1 row-cols-md-2 row-cols-lg-3 {{ disableCard? '':'p-4'}}"
+      *ngIf="events.length > 0">
+      <div *ngFor="let item of events" class="col">
+        <div class="card event-card">
+          <!-- Available or Finished Sign -->
+          <div class="available-badge" [ngClass]="{'finalized': item.eventStatus == 1, 'soldOut': item.eventStatus == 2}">
+            <span *ngIf="item.eventStatus == 1">
+              {{ '::Finalized' | abpLocalization }}
+            </span>
+            <span *ngIf="item.eventStatus == 0">
+              {{ '::Available' | abpLocalization }}
+            </span>
+            <span *ngIf="item.eventStatus == 2">
+              {{ '::SoldOut' | abpLocalization }}
+            </span>
+          </div>
+          <div class="image-container" (click)="goTo(item.code)">
+            <img *ngIf="item.photoGallery !== null" [src]="item.photoGallery" class="card-img-top"
+              alt="{{ item.name }}" />
+            <img *ngIf="item.photoGallery === null" src="/assets/images/logo/logo-dark.png" class="card-img-top"
+              alt="{{ item.name }}" />
+          </div>
+          <div class="card-info-container">
+            <div class="event-container-title" title="{{ item.name }}" (click)="goTo(item.code)">
+              <p class="event-title name">{{ item.name }}</p>
+            </div>
+            <div>
+              <div class="date-container">
+                <p class="date-time-text">
+                  {{ item.eventDates[0]?.startDate | date : 'EEEE' }}
+                </p>
+                <p class="date-time-text">
+                  {{ item.eventDates[0]?.startDate | date : 'dd/MM/yyyy' }}
+                </p>
+                <p class="date-time-text">
+                  {{ item.eventDates[0]?.startDate | date : 'HH:mm' }}
+                </p>
+              </div>
+
+
+              <div class="btn-group w-100 btn-fill" role="group" *ngIf="showOptions" [class.bg-primary]="item.eventStatus == 0 || item.eventStatus == 2" [class.bg-secondary]="item.eventStatus == 1">
+                <button class="btn btn-block btn-fill text-center w-75" (click)="goToValidate(item)" *ngIf="item.isValidator" [class.btn-primary]="item.eventStatus == 0 || item.eventStatus == 2" [class.btn-secondary]="item.eventStatus == 1">
+                  Validar
+                </button>
+                <button type="button" class="btn text-center btn-fill" (click)="toggleEventStatus(item)" *ngIf="(item.isOwner || item.isAdmin || item.isEditor) && (item.eventStatus == 0 || item.eventStatus == 2)" [class.btn-primary]="item.eventStatus == 0 || item.eventStatus == 2" [class.btn-secondary]="item.eventStatus == 1">
+                  <i *ngIf="item.isActive" class="bi bi-pause-circle"></i>
+                  <i *ngIf="!item.isActive" class="bi bi-play-circle"></i>
+                </button>
+
+                <div class="btn-group" role="group" *ngIf="item.isOwner || item.isAdmin || item.isEditor">
+                  <div ngbDropdown placement="top-end" >
+                    <button type="button" class="btn btn-fill dropdown-toggle" id="options{{item.id}}" ngbDropdownToggle [class.btn-primary]="item.eventStatus == 0 || item.eventStatus == 2" [class.btn-secondary]="item.eventStatus == 1">Opciones</button>
+                    <div ngbDropdownMenu aria-labelledby="options{{item.id}}">
+                      <button *ngIf="(item.isOwner || item.isAdmin || item.isEditor) && (item.eventStatus == 0 || item.eventStatus == 2)" ngbDropdownItem (click)="createOrEditEvent(item.id)">{{ '::Edit' | abpLocalization }}</button>
+                      <button *ngIf="item.isOwner || item.isAdmin" ngbDropdownItem (click)="delete(item.id)">{{ '::Delete' | abpLocalization }}</button>
+                      <button ngbDropdownItem (click)="goToSale(item)">{{ '::Sales' | abpLocalization }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="text-light location-container p-4 btn-fill" *ngIf="!showOptions" (click)="goTo(item.code)" [class.bg-primary]="item.eventStatus == 0 || item.eventStatus == 2" [class.bg-secondary]="item.eventStatus == 1">
+                <i class="fa fa-map-marker"></i>
+                <p class="location-text" title="{{item.place}}">
+                  {{ item.place }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-5 mb-5 pt-5 pb-5" *ngIf="events.length === 0" [abpLoading]="eventsLoaded">
+      <div class="col text-center pt-5 pb-5">
+        <div *ngIf="!eventsLoaded"><i class="fa fa-info"></i> {{ '::NoEvents' | abpLocalization }}</div>
+      </div>
+    </div>
+
+    <!-- Button to more events -->
+    <div class="row mt-2 mb-3" *ngIf="existMoreEvent && events.length > 0">
+      <div class="col text-center">
+        <button class="btn btn-primary btn-more" type="button" (click)="onLoadMore()" [disabled]="eventsLoaded">
+          {{ '::LoadMore' | abpLocalization }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

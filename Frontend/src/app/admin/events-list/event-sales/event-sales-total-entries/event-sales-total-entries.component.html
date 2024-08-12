@@ -1,0 +1,28 @@
+<div class="alert alert-dismissible shadow">
+
+  <div class="row ps-3">
+    <div class="col-9 text-start">
+      <strong>{{ '::TotalSold' | abpLocalization }}</strong>
+    </div>
+    <div class="col-3 text-end">
+      <i class="fa fa-ticket icon-md" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <!-- Count tickets -->
+  <div class="row ps-3">
+    <div class="col text-center">
+      <strong class="number-md" #countUp [countUp]="total">{{ticketsSold}}</strong><small> {{ '::Tickets' | abpLocalization }}</small>
+    </div>
+  </div>
+
+  <!-- Last time update -->
+  <div class="row">
+    <div class="col text-end">
+      <small class="text-success" *ngIf="isPurchase">{{ '::LastPurchase' | abpLocalization }}</small><small class="text-secondary"> {{lastLoad}}</small>
+    </div>
+  </div>
+
+  <!-- Loading Block Card-->
+  <app-card-block [load]="load"></app-card-block>
+</div>

@@ -1,0 +1,20 @@
+<!-- State approved -->
+<app-event-response-approved
+  [purchase]="purchase"
+  [purchaseCheck]="purchaseCheckInput"
+  *ngIf="purchaseCheckInput.status === 'approved'">
+</app-event-response-approved>
+
+<!-- State pending -->
+<app-event-response-pending
+  [purchase]="purchase"
+  [purchaseCheck]="purchaseCheckInput"
+  *ngIf="purchaseCheckInput.status === 'pending' || purchaseCheckInput.status === 'in_process'">
+</app-event-response-pending>
+
+<!-- State Error -->
+<app-event-response-error
+  [purchase]="purchase"
+  [purchaseCheck]="purchaseCheckInput"
+  *ngIf="purchaseCheckInput.status !== 'pending' && purchaseCheckInput.status !== 'approved' && purchaseCheckInput.status !== 'in_process'">
+</app-event-response-error>

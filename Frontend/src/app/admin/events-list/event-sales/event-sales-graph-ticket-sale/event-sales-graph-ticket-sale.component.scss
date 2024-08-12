@@ -1,0 +1,26 @@
+.title{
+  font-size: 0.8rem;
+}
+
+.text-custom-inline {
+  color: #4a4a4a;
+  font-size: 0.8rem;
+  display: inline;
+
+  .price{
+    color: #4a4a4a;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline;
+  }
+
+  span {
+    display: inline;
+    font-size: 0.6rem;
+    color: #bbb;
+  }
+
+  strong{
+    font-size: 1.2rem;
+  }
+}

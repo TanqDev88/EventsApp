@@ -1,0 +1,65 @@
+<div class="container text-center">
+
+  <div class="row">
+    <div class="col p-3">
+      <h3 class="text-primary-emphasis"><i class="fa fa-star" aria-hidden="true"></i> {{eventName}}</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="col p-2">
+        <!-- Total de entradas -->
+        <app-event-sales-total-tickets [totalTickets]="totalTickets" [lastTimePurchase]="lastTimePurchase"></app-event-sales-total-tickets>
+      </div>
+
+      <div class="col p-2">
+        <!-- Total vendidos -->
+        <app-event-sales-total-entries [ticketsSold]="ticketsSold" [lastTimePurchase]="lastTimePurchase"></app-event-sales-total-entries>
+      </div>
+
+      <div class="col p-2">
+        <!-- Total disponibles -->
+        <app-event-sales-total-available [ticketsAvailable]="ticketsAvailable"></app-event-sales-total-available>
+      </div>
+    </div>
+
+    <div class="col-sm-9">
+
+      <div class="row">
+        <div class="col-sm-8 p-2">
+          <!-- Grafico de Venta de entradas -->
+          <app-event-sales-graph-ticket-sales [ticketsAvailableAndSold]="ticketsAvailableAndSold"></app-event-sales-graph-ticket-sales>
+        </div>
+
+        <div class="col-sm-4">
+
+          <div class="col p-2">
+            <!-- Días a la venta -->
+            <app-event-sales-days-to-sale [daysToSale]="daysToSale"></app-event-sales-days-to-sale>
+          </div>
+
+          <div class="col p-2">
+            <!-- Días restantes -->
+            <app-event-sales-days-to-remaining [daysToRemaining]="daysToRemaining"></app-event-sales-days-to-remaining>
+          </div>
+
+          <div class="col p-2">
+            <!-- Total de Ventas -->
+            <app-event-sales-total-sales [totalTicketsSold]="totalTicketsSold" [lastTimePurchase]="lastTimePurchase"></app-event-sales-total-sales>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <!-- Detalle de sectores -->
+    <div class="col-sm-3 p-3" *ngFor="let sector of ticketsAvailableAndSoldForType.ticketCounts">
+      <app-event-sales-graph-ticket-sale [sector]="sector"></app-event-sales-graph-ticket-sale>
+    </div>
+
+  </div>
+
+</div>

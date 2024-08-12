@@ -1,0 +1,107 @@
+/* You can add global styles to this file, and also import other style files */
+
+@keyframes donut-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --lpx-logo: url('/assets/images/logo/logo-light.png');
+  --lpx-logo-icon: url('/assets/images/logo/logo-light-thumbnail.png');
+}
+
+.donut {
+  display: inline-block;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #7983ff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: donut-spin 1.2s linear infinite;
+
+  &.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+}
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+body {
+  font-family: 'Work Sans', 'Roboto', sans-serif;
+}
+
+abp-replaceable-route-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  abp-login {
+    margin-top: 10%;
+    text-align: center;
+    padding: 20px;
+  }
+}
+
+.img-logo {
+  width: 120px;
+  height: 35px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Hace que el contenedor principal ocupe al menos el 100% de la altura de la ventana
+}
+
+app-header {
+  flex: 0 0 auto; // El encabezado no se expandirá, mantendrá su tamaño según su contenido
+}
+
+.min-div {
+  flex: 1; // El contenido entre el encabezado y el pie de página se expandirá para llenar el espacio restante
+}
+
+app-footer {
+  flex: 0 0 auto; // El pie de página no se expandirá, mantendrá su tamaño según su contenido
+}
+
+abp-roles {
+  width: 100%;
+}
+
+abp-users {
+  width: 100%;
+}
+
+.abp-loading {
+  background-color: #fff;
+  opacity: 0.6;
+  transition: all 0.5s ease-in-out;
+}
+
+.btn-more {
+  width: 200px;
+  height: 40px
+}
+
+.icon-md {
+  font-size: 1.5rem !important;
+}
+
+.number-md {
+  font-size: 1.5rem;
+}
+
+.card-empty {
+  height: 50px;
+}

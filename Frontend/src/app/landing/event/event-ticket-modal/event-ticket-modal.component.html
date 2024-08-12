@@ -1,0 +1,545 @@
+<div class="modal-body pt-4 pb-4" [abpLoading]="ticketLoading">
+  <form [formGroup]="purchaseForm" (ngSubmit)="buy()" (keydown.enter)="handleEnterKey($event)" skipValidation>
+    <div class="mui-stepper-root">
+      <!-- Step 1 - Label  -->
+      <div class="step-alternative-label">
+        <span class="step-label-root step-label-alternative-label">
+          <span class="step-label-alternative-label">
+            <svg
+              class="svg-icon-root step-icon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="12"></circle>
+              <text class="step-icon-text" x="12" y="16" text-anchor="middle">1</text>
+            </svg>
+          </span>
+          <span> </span>
+        </span>
+      </div>
+      <!-- Step 2 -  Label -->
+      <div class="step-alternative-label">
+        <div class="step-connector-root connector-alternative-label">
+          <span class="step-connector-line step-connector-line-horizontal"></span>
+        </div>
+        <span class="step-label-root step-label-alternative-label">
+          <span class="step-label-alternative-label">
+            <svg
+              class="svg-icon-root step-icon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="12"></circle>
+              <text class="step-icon-text" x="12" y="16" text-anchor="middle">2</text>
+            </svg>
+          </span>
+        </span>
+      </div>
+      <!-- Step 3 - Label -->
+      <div class="step-alternative-label">
+        <div class="connector-alternative-label">
+          <span class="step-connector-line step-connector-line-horizontal"></span>
+        </div>
+        <span class="step-label-root step-label-alternative-label">
+          <span class="step-label-alternative-label">
+            <svg
+              class="svg-icon-root step-icon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="12"></circle>
+              <text class="step-icon-text" x="12" y="16" text-anchor="middle">3</text>
+            </svg>
+          </span>
+          <span> </span>
+        </span>
+      </div>
+    </div>
+    <!-- Step 1 - Content -->
+<div class="row justify-content-center step1" *ngIf="step === 1" formGroupName="step1">
+  <div class="col-md-8">
+    <div class="row modal-xl">
+      <!-- Title -->
+      <div class="row">
+        <div class="col">
+          <p class="typography-style typography-body">
+            {{ '::SelectYourTickets' | abpLocalization }}
+          </p>
+          <br />
+          <small>
+            {{ '::Date' | abpLocalization }}:
+            {{ eventDateName | date : "EEEE d 'de' MMMM 'de' yyyy" | uppercase }} |
+            {{ '::Hour' | abpLocalization }}: {{ eventDateName | date : 'HH:mm' }}
+          </small>
+        </div>
+      </div>
+      <!-- Body -->
+      <ul class="list-group mb-3">
+        <li class="list-group-item p-2" *ngFor="let ticketGroup of selectTickets; let i = index">
+          <div class="row">
+            <div class="col-6 text-start">
+              <strong>
+                {{ ticketGroup.ticketCategoryName }} - {{ ticketGroup.ticketSectorName }}
+              </strong>
+              <br />
+              <small>
+                {{ ticketGroup.price }}
+              </small>
+            </div>
+            <div class="col-6 text-end">
+              <strong class="bg-warning p-1 rounded-1" *ngIf="ticketGroup.count === 0">{{
+                '::SoldOut' | abpLocalization
+              }}</strong>
+              <div class="qty mt-1" *ngIf="ticketGroup.count > 0">
+                <span class="minus" (click)="decrementQuantity(i)" [disabled]="loading || ticketGroup.quantity === 0">-</span>
+                <span class="count">{{ ticketGroup.quantity }}</span>
+                <span class="plus" (click)="incrementQuantity(i)" [disabled]="loading || disabledIncrement || (saleForPerson > 0 && ticketGroup.quantity >= saleForPerson)">+</span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- Detail  -->
+      <div class="col">
+        <div class="row border-bottom">
+          <div class="col-8 text-start">
+            <strong>{{ '::ServiceCost' | abpLocalization }}</strong>
+          </div>
+          <div class="col-4 text-end">
+            <p class="typography-body">$&nbsp; {{ commission.toFixed(2) }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8 text-start">
+            <strong>{{ '::TotalToPay' | abpLocalization }}</strong>
+          </div>
+          <div class="col-4 text-end">
+            <p class="typography-body">$&nbsp; {{ totalQuantity.toFixed(2) }}</p>
+          </div>
+          <div>
+            <small class="text-danger" *ngIf="saleForPerson > 0">Maximo {{ saleForPerson }} tickets</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <br />
+    <!-- Button Cancel and Next -->
+    <div class="row">
+      <div class="col-12 text-center">
+        <div class="btn-group">
+          <button class="btn btn-danger button-colors" type="button" (click)="cancel()" title="{{ '::Cancel' | abpLocalization }}">
+            <i class="fa fa-times" aria-hidden="true"></i>
+            <span class="d-none d-md-inline">
+              {{ '::Cancel' | abpLocalization }}
+            </span>
+          </button>
+          <button class="btn btn-primary" type="button" (click)="goStep(2)" title="{{ '::Next' | abpLocalization }}" [disabled]="totalQuantity === 0">
+            <span class="d-none d-md-inline">
+              {{ '::Next' | abpLocalization }}
+            </span>
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- Step 2 - Content -->
+    <div class="row justify-content-center step2 mb-3" *ngIf="step === 2" formGroupName="step2">
+      <div class="col-md-8">
+        <div class="row modal-xl">
+          <!-- Title -->
+          <div class="row">
+            <div class="col">
+              <p class="typography-style typography-body">
+                {{ '::EnterYourData' | abpLocalization }}
+              </p>
+            </div>
+          </div>
+          <!-- Body -->
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <!-- Name -->
+                <div class="col-md-6 text-start mb-3">
+                  <label class="form-label" for="name">
+                    <i class="fa fa-user" aria-hidden="true"></i> {{ '::Name' | abpLocalization }}
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    placeholder="{{ '::Name' | abpLocalization }}"
+                    formControlName="name"
+                  />
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.name').invalid &&
+                      (purchaseForm.get('step2.name').dirty ||
+                        purchaseForm.get('step2.name').touched)
+                    "
+                  >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.name').errors.required"
+                      >{{ '::NameRequired' | abpLocalization }}</small
+                    >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.name').errors.minlength"
+                      >{{ '::NameMinLegthPurchase' | abpLocalization }}</small
+                    >
+                    <div *ngIf="purchaseForm.get('step2.name').errors.pattern">
+                      <small class="text-danger">{{ '::PatternPurchase' | abpLocalization }}</small>
+                    </div>
+                  </div>
+                </div>
+                <!-- Surname -->
+                <div class="col-md-6 text-start mb-3">
+                  <label class="form-label" for="surname">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    {{ '::LastName' | abpLocalization }}
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="surname"
+                    placeholder="{{ '::LastName' | abpLocalization }}"
+                    formControlName="surname"
+                  />
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.surname').invalid &&
+                      (purchaseForm.get('step2.surname').dirty ||
+                        purchaseForm.get('step2.surname').touched)
+                    "
+                  >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.surname').errors.required"
+                      >{{ '::LastNameRequired' | abpLocalization }}</small
+                    >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.surname').errors.minlength"
+                      >{{ '::LastNameMinLegthPurchase' | abpLocalization }}</small
+                    >
+                    <div *ngIf="purchaseForm.get('step2.surname').errors.pattern">
+                      <small class="text-danger">{{ '::PatternPurchase' | abpLocalization }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Mail -->
+                <div class="col-md-6 text-start mb-3">
+                  <label class="form-label" for="email">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    {{ '::Email' | abpLocalization }}
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="{{ '::Email' | abpLocalization }}"
+                    formControlName="email"
+                  />
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.email').invalid &&
+                      (purchaseForm.get('step2.email').dirty ||
+                        purchaseForm.get('step2.email').touched)
+                    "
+                  >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.email').errors.required"
+                      >{{ '::EmailRequired' | abpLocalization }}</small
+                    >
+                  </div>
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.email').errors &&
+                      purchaseForm.get('step2.email').errors.email
+                    "
+                  >
+                    <small class="text-danger">{{
+                      '::InvalidEmailErrorMessage' | abpLocalization
+                    }}</small>
+                  </div>
+                </div>
+                <!-- Confirm Mail -->
+                <div class="col-md-6 text-start mb-3">
+                  <label class="form-label" for="confirmEmail">
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    {{ '::ConfirmMail' | abpLocalization }}
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="confirmEmail"
+                    placeholder="{{ '::ConfirmMail' | abpLocalization }}"
+                    formControlName="confirmEmail"
+                  />
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.confirmEmail').dirty &&
+                      purchaseForm.get('step2.confirmEmail').value !==
+                        purchaseForm.get('step2.email').value
+                    "
+                  >
+                    <small class="text-danger">{{
+                      '::EmailMatchErrorMessage' | abpLocalization
+                    }}</small>
+                  </div>
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.confirmEmail').errors &&
+                      purchaseForm.get('step2.confirmEmail').errors.email
+                    "
+                  >
+                    <small class="text-danger">{{
+                      '::InvalidEmailErrorMessage' | abpLocalization
+                    }}</small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Phone -->
+                <div class="col-md-6 text-start mb-3">
+                  <label class="form-label" for="phone">
+                    <i class="fa fa-user" aria-hidden="true"></i> {{ '::Phone' | abpLocalization }}
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    placeholder="{{ '::Phone' | abpLocalization }}"
+                    formControlName="phone"
+                  />
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.phone').invalid &&
+                      (purchaseForm.get('step2.phone').dirty ||
+                        purchaseForm.get('step2.phone').touched)
+                    "
+                  >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.phone').errors.required"
+                      >{{ '::PhoneRequired' | abpLocalization }}</small
+                    >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.phone').errors.minlength"
+                      >{{ '::PhoneMinLegth' | abpLocalization }}</small
+                    >
+                    <div *ngIf="purchaseForm.get('step2.phone').errors.pattern">
+                      <small class="text-danger">{{ '::Pattern' | abpLocalization }}</small>
+                    </div>
+                  </div>
+                </div>
+                <!-- Address -->
+                <div class="col-md-6 text-start mb-3">
+                  <label class="form-label" for="address">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    {{ '::Address' | abpLocalization }}
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="address"
+                    placeholder="{{ '::Address' | abpLocalization }}"
+                    formControlName="address"
+                  />
+                  <div
+                    *ngIf="
+                      purchaseForm.get('step2.address').invalid &&
+                      (purchaseForm.get('step2.address').dirty ||
+                        purchaseForm.get('step2.address').touched)
+                    "
+                  >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.address').errors.required"
+                      >{{ '::AddressRequired' | abpLocalization }}</small
+                    >
+                    <small
+                      class="text-danger"
+                      *ngIf="purchaseForm.get('step2.address').errors.minlength"
+                      >{{ '::AddressMinLegth' | abpLocalization }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <br />
+        <!-- Button Cancel, Previous and Next -->
+        <div class="row">
+          <div class="col-12 text-center">
+            <div class="btn-group">
+              <button
+                class="btn btn-danger button-colors"
+                type="button"
+                (click)="cancel()"
+                title="{{ '::Cancel' | abpLocalization }}"
+              >
+                <i class="fa fa-times" aria-hidden="true"></i>
+                <span class="d-none d-md-inline">
+                  {{ '::Cancel' | abpLocalization }}
+                </span>
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="goStep(1)"
+                title="{{ '::Previous' | abpLocalization }}"
+              >
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                <span class="d-none d-md-inline">
+                  {{ '::Previous' | abpLocalization }}
+                </span>
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="goStep(3)"
+                [disabled]="purchaseForm.get('step2').invalid"
+                title="{{ '::Next' | abpLocalization }}"
+              >
+                <span class="d-none d-md-inline">
+                  {{ '::Next' | abpLocalization }}
+                </span>
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Step 3 - Content -->
+    <div class="row justify-content-center step3" *ngIf="step === 3">
+      <div class="col-md-8">
+        <div class="row modal-xl">
+          <!-- Title -->
+          <div class="row">
+            <div class="col">
+              <p class="typography-style typography-body">
+                {{ '::ConfirmYourPurchase' | abpLocalization }}
+              </p>
+              <small>
+                {{ '::Date' | abpLocalization }}:
+                {{ eventDateName | date : "EEEE d 'de' MMMM 'de' yyyy" | uppercase }} |
+                {{ '::Hour' | abpLocalization }}: {{ eventDateName | date : 'HH:mm' }}
+              </small>
+            </div>
+          </div>
+          <!-- Body -->
+          <div>
+            <ul class="list-group mb-3">
+              <li
+                class="list-group-item p-2"
+                *ngFor="let ticketGroup of purchaseTickets; let i = index"
+              >
+                <div class="row">
+                  <div class="col-8 text-start">
+                    <strong>
+                      {{ ticketGroup.ticketCategoryName }} - {{ ticketGroup.ticketSectorName }}
+                    </strong>
+                    <br />
+                    <small>
+                      {{ ticketGroup.price }}
+                    </small>
+                  </div>
+                  <div class="col-4 text-end">
+                    {{ '::Amount' | abpLocalization }}: <strong>{{ ticketGroup.quantity }}</strong>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="row mb-3 border rounded-1 p-2 content-data">
+            <div class="col-12">
+              {{ '::Name' | abpLocalization }}:
+              <strong>{{ purchaseForm.get('step2.name').value }}</strong>
+            </div>
+            <div class="col-12">
+              {{ '::LastName' | abpLocalization }}:
+              <strong>{{ purchaseForm.get('step2.surname').value }}</strong>
+            </div>
+            <div class="col-12">
+              {{ '::Email' | abpLocalization }}:
+              <strong>{{ purchaseForm.get('step2.email').value }}</strong>
+            </div>
+          </div>
+          <small>
+            <input
+              type="checkbox"
+              [(ngModel)]="termsAccepted"
+              (change)="onTermsCheckboxChange($event.target.checked)"
+            />
+            {{ '::OrderAcceptance' | abpLocalization }}
+            <a href="/terms-and-conditions" target="_blank">
+              {{ '::ConditionsTerms' | abpLocalization }}
+            </a>
+          </small>
+        </div>
+        <br />
+        <br />
+        <!-- Button Cancel and Next -->
+        <div class="row">
+          <div class="col-12 text-center">
+            <div class="btn-group">
+              <button
+                class="btn btn-danger button-colors"
+                type="button"
+                (click)="cancel()"
+                title="{{ '::Cancel' | abpLocalization }}"
+              >
+                <i class="fa fa-times" aria-hidden="true"></i>
+                <span class="d-none d-md-inline">
+                  {{ '::Cancel' | abpLocalization }}
+                </span>
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="goStep(2)"
+                title="{{ '::Previous' | abpLocalization }}"
+              >
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                <span class="d-none d-md-inline">
+                  {{ '::Previous' | abpLocalization }}
+                </span>
+              </button>
+              <button
+                class="btn btn-warning"
+                type="button"
+                (click)="buy()"
+                title="{{ '::Buy' | abpLocalization }}"
+                [disabled]="!termsAccepted"
+              >
+                <span class="d-none d-md-inline">
+                  {{ '::Buy' | abpLocalization }}
+                </span>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center mb-3">
+      <div class="col text-center">
+        <p>{{ formatTime(countdownMinutes) }}</p>
+      </div>
+    </div>
+  </form>
+</div>

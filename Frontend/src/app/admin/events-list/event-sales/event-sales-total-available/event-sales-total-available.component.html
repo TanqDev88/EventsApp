@@ -1,0 +1,21 @@
+<div class="alert alert-dismissible shadow">
+
+  <div class="row ps-3">
+    <div class="col-9 text-start">
+      <strong>{{ '::TotalAvailable' | abpLocalization }}</strong>
+    </div>
+    <div class="col-3 text-end">
+      <i class="fa fa-ticket icon-md" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <!-- Count tickets -->
+  <div class="row ps-3">
+    <div class="col text-center">
+      <strong class="number-md" #countUp [countUp]="total">{{ticketsAvailable}}</strong><small> {{ '::Tickets' | abpLocalization }}</small>
+    </div>
+  </div>
+
+  <!-- Loading Block Card-->
+  <app-card-block [load]="load"></app-card-block>
+</div>

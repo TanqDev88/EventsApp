@@ -1,0 +1,22 @@
+<div class="alert alert-dismissible shadow">
+
+  <div class="row ps-3">
+    <div class="col-9 text-start">
+      <strong>{{ '::DaysToSale' | abpLocalization }}</strong>
+    </div>
+    <div class="col-3 text-end">
+      <i class="fa fa-calendar icon-md" aria-hidden="true"></i>
+    </div>
+  </div>
+
+  <!-- Count tickets -->
+  <div class="row ps-3">
+    <div class="col text-center pt-1 pb-1">
+      <strong class="number-md" #countUp [countUp]="days">0</strong><small> {{ dayLabel }}</small>
+    </div>
+  </div>
+
+
+  <!-- Loading Block Card-->
+  <app-card-block [load]="load"></app-card-block>
+</div>
